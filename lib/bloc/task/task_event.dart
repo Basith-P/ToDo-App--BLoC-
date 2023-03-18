@@ -33,3 +33,12 @@ class UpdateTask extends TaskEvent {
   @override
   List<Object> get props => [task];
 }
+
+class ToggleTask extends TaskEvent {
+  final Task task;
+
+  const ToggleTask(this.task);
+
+  @override
+  List<Object> get props => [task];
+}
