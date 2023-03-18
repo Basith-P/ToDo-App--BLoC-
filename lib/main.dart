@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 
+import 'bloc/bloc_exports.dart';
+import 'global/keys.dart';
+import 'pages/home_page.dart';
+
 void main() {
-  runApp(ToDoApp());
+  runApp(const ToDoApp());
 }
 
 class ToDoApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ToDo App',
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const ToDoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ToDo App'),
-      ),
-      body: Center(
-        child: Text('Hello World'),
+    return BlocProvider(
+      create: (context) => TaskBloc(),
+      child: MaterialApp(
+        title: 'ToDo App',
+        navigatorKey: navigatorKey,
+        theme: ThemeData.light(useMaterial3: true),
+        darkTheme: ThemeData.dark(useMaterial3: true),
+        themeMode: ThemeMode.system,
+        debugShowCheckedModeBanner: false,
+        home: const HomePage(),
       ),
     );
   }
