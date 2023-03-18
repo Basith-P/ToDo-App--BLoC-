@@ -7,28 +7,37 @@ part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends HydratedBloc<TaskEvent, TaskState> {
-  TaskBloc() : super(const TaskState([])) {
+  TaskBloc() : super(const TaskState()) {
     on<AddTask>(_onTaskAdded);
     on<DeleteTask>(_onTaskDeleted);
+    on<RemoveTask>(_onTaskRemoved);
     on<UpdateTask>(_onTaskUpdated);
     on<ToggleTask>(_onTaskToggled);
   }
 
   void _onTaskAdded(AddTask event, Emitter<TaskState> emit) {
     final List<Task> tasks = List.from(state.tasks)..add(event.task);
-    emit(TaskState(tasks));
+    emit(TaskState(tasks: tasks, deletedTasks: state.deletedTasks));
   }
 
   void _onTaskDeleted(DeleteTask event, Emitter<TaskState> emit) {
-    final List<Task> tasks = List.from(state.tasks)..remove(event.task);
-    emit(TaskState(tasks));
+    emit(TaskState(
+        tasks: List.from(state.tasks)..remove(event.task),
+        deletedTasks: List.from(state.deletedTasks)
+          ..add(event.task.copyWith(isDeleted: true))));
+  }
+
+  void _onTaskRemoved(RemoveTask event, Emitter<TaskState> emit) {
+    final List<Task> deletedTasks = List.from(state.deletedTasks)
+      ..remove(event.task);
+    emit(TaskState(tasks: state.tasks, deletedTasks: deletedTasks));
   }
 
   void _onTaskUpdated(UpdateTask event, Emitter<TaskState> emit) {
     final List<Task> tasks = List.from(state.tasks)
       ..remove(event.task)
       ..add(event.task);
-    emit(TaskState(tasks));
+    emit(TaskState(tasks: tasks));
   }
 
   void _onTaskToggled(ToggleTask event, Emitter<TaskState> emit) {
@@ -36,7 +45,7 @@ class TaskBloc extends HydratedBloc<TaskEvent, TaskState> {
     final List<Task> tasks = List.from(state.tasks)
       ..remove(event.task)
       ..insert(index, event.task.copyWith(isDone: !event.task.isDone));
-    emit(TaskState(tasks));
+    emit(TaskState(tasks: tasks, deletedTasks: state.deletedTasks));
   }
 
   @override

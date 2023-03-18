@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'bloc/bloc_exports.dart';
 import 'global/keys.dart';
 import 'pages/home_page.dart';
+import 'services/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,8 @@ class ToDoApp extends StatelessWidget {
           darkTheme: ThemeData.dark(useMaterial3: true),
           themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
-          home: const HomePage(),
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          initialRoute: HomePage.routeName,
         ),
       ),
     );
