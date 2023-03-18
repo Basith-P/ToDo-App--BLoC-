@@ -21,19 +21,26 @@ class ToDoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TaskBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TaskBloc>(create: (context) => TaskBloc()),
+        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
+      ],
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: MaterialApp(
-          title: 'ToDo App',
-          navigatorKey: navigatorKey,
-          theme: ThemeData.light(useMaterial3: true),
-          darkTheme: ThemeData.dark(useMaterial3: true),
-          themeMode: ThemeMode.system,
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: AppRouter.onGenerateRoute,
-          initialRoute: HomePage.routeName,
+        child: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp(
+              title: 'ToDo App',
+              navigatorKey: navigatorKey,
+              theme: ThemeData.light(useMaterial3: true),
+              darkTheme: ThemeData.dark(useMaterial3: true),
+              themeMode: state.themeMode,
+              debugShowCheckedModeBanner: false,
+              onGenerateRoute: AppRouter.onGenerateRoute,
+              initialRoute: HomePage.routeName,
+            );
+          },
         ),
       ),
     );

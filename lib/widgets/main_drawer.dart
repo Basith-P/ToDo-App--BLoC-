@@ -50,6 +50,26 @@ class MainDrawer extends StatelessWidget {
             onTap: () => navigatorKey.currentState
                 ?.pushNamed(DeletedTasksPage.routeName),
           ),
+          ListTile(
+            leading: const FaIcon(FontAwesomeIcons.solidMoon),
+            iconColor: Theme.of(context).colorScheme.onBackground,
+            title: const Text('Dark Mode'),
+            style: ListTileStyle.list,
+            trailing: Transform(
+              alignment: Alignment.centerRight,
+              transform: Matrix4.identity()..scale(0.7),
+              child: BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (_, __) {
+                  return Switch(
+                    value: Theme.of(context).brightness == Brightness.dark,
+                    onChanged: (value) {
+                      context.read<ThemeBloc>().add(ToggleTheme());
+                    },
+                  );
+                },
+              ),
+            ),
+          )
         ],
       ),
     ));
