@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/deleted_tasks_page.dart';
-import '../pages/home_page.dart';
+import '../pages/main_page.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -9,13 +9,13 @@ class AppRouter {
 
     switch (settings.name) {
       case '/':
-        page = const HomePage();
+        page = const MainPage();
         break;
       case DeletedTasksPage.routeName:
         page = const DeletedTasksPage();
         break;
       default:
-        page = const HomePage();
+        page = const MainPage();
     }
 
     return MaterialPageRoute(builder: (context) => page);

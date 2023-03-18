@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../bloc/bloc_exports.dart';
 import '../global/keys.dart';
 import '../pages/deleted_tasks_page.dart';
-import '../pages/home_page.dart';
+import '../pages/main_page.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
@@ -39,7 +39,7 @@ class MainDrawer extends StatelessWidget {
               trailing: Text('${taskBlocR.state.taskCount}'),
               onTap: () {
                 navigatorKey.currentState
-                    ?.pushReplacementNamed(HomePage.routeName);
+                    ?.pushReplacementNamed(MainPage.routeName);
               }),
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.trashCan),

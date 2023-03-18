@@ -28,24 +28,7 @@ class DeletedTasksPage extends StatelessWidget {
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           final List<Task> deletedTasks = state.deletedTasks;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0).copyWith(bottom: 0),
-                child: Row(
-                  children: [
-                    Chip(label: Text('Total: ${state.deletedTaskCount}')),
-                    const SizedBox(width: 8),
-                    Chip(
-                        label: Text(
-                            'Completed: ${state.deletedCompletedTaskCount}')),
-                  ],
-                ),
-              ),
-              TasksList(tasks: deletedTasks),
-            ],
-          );
+          return TasksList(tasks: deletedTasks);
         },
       ),
     );

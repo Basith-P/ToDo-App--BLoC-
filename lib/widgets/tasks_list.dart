@@ -13,13 +13,11 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-          padding: const EdgeInsets.all(16.0),
-          itemCount: tasks.length,
-          itemBuilder: (context, index) {
-            return TaskTile(tasks[index]);
-          }),
-    );
+    return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: tasks.length,
+        itemBuilder: (context, index) {
+          return TaskTile(tasks[index]);
+        });
   }
 }
