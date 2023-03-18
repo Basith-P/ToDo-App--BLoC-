@@ -11,6 +11,7 @@ class TaskBloc extends HydratedBloc<TaskEvent, TaskState> {
     on<AddTask>(_onTaskAdded);
     on<DeleteTask>(_onTaskDeleted);
     on<RemoveTask>(_onTaskRemoved);
+
     on<UpdateTask>(_onTaskUpdated);
     on<ToggleTask>(_onTaskToggled);
     on<ClearDeletedTasks>(_onClearDeletedTasks);
@@ -52,7 +53,8 @@ class TaskBloc extends HydratedBloc<TaskEvent, TaskState> {
   }
 
   void _onClearDeletedTasks(ClearDeletedTasks event, Emitter<TaskState> emit) {
-    emit(TaskState(tasks: state.tasks, deletedTasks: const []));
+    final List<Task> emptyList = <Task>[];
+    emit(TaskState(tasks: state.tasks, deletedTasks: emptyList));
   }
 
   void _onClearCompletedTasks(

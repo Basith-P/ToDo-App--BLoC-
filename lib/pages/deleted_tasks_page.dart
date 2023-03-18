@@ -28,9 +28,6 @@ class DeletedTasksPage extends StatelessWidget {
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           final List<Task> deletedTasks = state.deletedTasks;
-          for (var element in deletedTasks) {
-            debugPrint(element.toString());
-          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
