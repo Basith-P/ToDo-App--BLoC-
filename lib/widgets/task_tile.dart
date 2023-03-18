@@ -14,8 +14,10 @@ class TaskTile extends StatelessWidget {
 
     void deleteOrRemoveTask() {
       if (task.isDeleted) {
+        debugPrint('Removing task: ${task.title}');
         taskBlocR.add(RemoveTask(task));
       } else {
+        debugPrint('Deleting task: ${task.title}');
         taskBlocR.add(DeleteTask(task));
       }
     }
@@ -25,7 +27,8 @@ class TaskTile extends StatelessWidget {
       leading: Checkbox(
         shape: const CircleBorder(),
         value: task.isDone,
-        onChanged: (value) => taskBlocR.add(ToggleTask(task)),
+        onChanged: (value) =>
+            task.isDeleted ? null : taskBlocR.add(ToggleTask(task)),
       ),
       title: Text(
         task.title,

@@ -51,3 +51,9 @@ class ToggleTask extends TaskEvent {
   @override
   List<Object> get props => [task];
 }
+
+class ClearDeletedTasks extends TaskEvent {}
+
+class ClearCompletedTasks extends TaskEvent {}
+
+class DeleteAllTasks extends TaskEvent {}

@@ -13,11 +13,24 @@ class DeletedTasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Deleted Tasks')),
+      appBar: AppBar(
+        title: const Text('Deleted Tasks'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_forever_outlined),
+            onPressed: () {
+              context.read<TaskBloc>().add(ClearDeletedTasks());
+            },
+          ),
+        ],
+      ),
       drawer: const MainDrawer(),
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           final List<Task> deletedTasks = state.deletedTasks;
+          for (var element in deletedTasks) {
+            debugPrint(element.toString());
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

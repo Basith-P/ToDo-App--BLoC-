@@ -13,6 +13,9 @@ class TaskBloc extends HydratedBloc<TaskEvent, TaskState> {
     on<RemoveTask>(_onTaskRemoved);
     on<UpdateTask>(_onTaskUpdated);
     on<ToggleTask>(_onTaskToggled);
+    on<ClearDeletedTasks>(_onClearDeletedTasks);
+    on<ClearCompletedTasks>(_onClearCompletedTasks);
+    on<DeleteAllTasks>(_onDeleteAllTasks);
   }
 
   void _onTaskAdded(AddTask event, Emitter<TaskState> emit) {
@@ -46,6 +49,24 @@ class TaskBloc extends HydratedBloc<TaskEvent, TaskState> {
       ..remove(event.task)
       ..insert(index, event.task.copyWith(isDone: !event.task.isDone));
     emit(TaskState(tasks: tasks, deletedTasks: state.deletedTasks));
+  }
+
+  void _onClearDeletedTasks(ClearDeletedTasks event, Emitter<TaskState> emit) {
+    emit(TaskState(tasks: state.tasks, deletedTasks: const []));
+  }
+
+  void _onClearCompletedTasks(
+      ClearCompletedTasks event, Emitter<TaskState> emit) {
+    emit(TaskState(
+        tasks: state.tasks.where((task) => !task.isDone).toList(),
+        deletedTasks:
+            state.deletedTasks.where((element) => !element.isDone).toList()));
+  }
+
+  void _onDeleteAllTasks(DeleteAllTasks event, Emitter<TaskState> emit) {
+    final List<Task> deletedTasks = List.from(state.deletedTasks)
+      ..addAll(state.tasks.map((task) => task.copyWith(isDeleted: true)));
+    emit(TaskState(tasks: const [], deletedTasks: deletedTasks));
   }
 
   @override
