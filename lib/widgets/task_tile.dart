@@ -32,6 +32,8 @@ class TaskTile extends StatelessWidget {
       ),
       title: Text(
         task.title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: task.isDone
             ? const TextStyle(decoration: TextDecoration.lineThrough)
             : null,

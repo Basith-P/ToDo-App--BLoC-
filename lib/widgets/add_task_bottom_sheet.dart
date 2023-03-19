@@ -12,12 +12,14 @@ class AddTaskBottomSheet extends StatefulWidget {
 }
 
 class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
-  late TextEditingController _titleController;
+  late final TextEditingController _titleController;
+  late final TextEditingController _descController;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
+    _descController = TextEditingController();
   }
 
   @override
@@ -51,6 +53,25 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
             ),
           ),
           const SizedBox(height: 16),
+          TextField(
+            autofocus: true,
+            controller: _descController,
+            textInputAction: TextInputAction.done,
+            maxLength: 300,
+            maxLines: 3,
+            decoration: InputDecoration(
+              hintText: 'Description',
+              counterText: '',
+              filled: true,
+              isDense: true,
+              fillColor: Theme.of(context).colorScheme.surface,
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -61,9 +82,13 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               ElevatedButton(
                 onPressed: () {
                   if (_titleController.text.isEmpty) return;
-                  final Task task = Task(title: _titleController.text);
+                  final Task task = Task(
+                    title: _titleController.text,
+                    desc: _descController.text,
+                  );
                   context.read<TaskBloc>().add(AddTask(task));
                   _titleController.clear();
+                  _descController.clear();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
